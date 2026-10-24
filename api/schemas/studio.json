@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Document": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": 1
+        },
+        "project_id": {
+          "$ref": "common.json#/$defs/Id"
+        },
+        "conversation_id": {
+          "$ref": "common.json#/$defs/Id"
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": [
+                  "user",
+                  "assistant"
+                ]
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 16000
+              }
+            },
+            "required": [
+              "role",
+              "text"
+            ]
+          },
+          "maxItems": 100
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "common.json#/$defs/Id"
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "image",
+                  "video"
+                ]
+              },
+              "path": {
+                "type": "string",
+                "maxLength": 4096
+              },
+              "image_base64": {
+                "type": "string",
+                "maxLength": 5600000
+              },
+              "duration_ms": {
+                "type": "integer",
+                "minimum": 100,
+                "maximum": 3600000
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "kind",
+              "path",
+              "image_base64",
+              "duration_ms"
+            ]
+          },
+          "maxItems": 100
+        },
+        "timeline": {
+          "$ref": "timeline.json#/$defs/Timeline"
+        },
+        "pipeline": {
+          "$ref": "pipeline.json#/$defs/Pipeline"
+        },
+        "review_image_base64": {
+          "type": "string",
+          "maxLength": 5600000
+        }
+      },
+      "required": [
+        "version",
+        "project_id",
+        "conversation_id",
+        "messages",
+        "assets",
+        "timeline",
+        "pipeline",
+        "review_image_base64"
+      ]
+    }
+  }
+}

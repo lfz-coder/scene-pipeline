@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="540" viewBox="0 0 1040 540">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#a9b4d0"/></marker></defs>
+<rect width="1040" height="540" rx="18" fill="#161b26"/>
+<g font-family="system-ui,PingFang SC,sans-serif" fill="#e5e9f5">
+<text x="36" y="42" font-size="24" font-weight="700">项目共享会话：先固定契约，再替换服务实现</text>
+<g fill="#242d40" stroke="#7183ad"><rect x="36" y="82" width="220" height="88" rx="10"/><rect x="306" y="82" width="250" height="88" rx="10"/><rect x="606" y="82" width="398" height="88" rx="10"/></g>
+<text x="56" y="116" font-size="19">ChatPanel</text><text x="56" y="145" font-size="15">对话 / LLM / VLM 附图</text>
+<text x="326" y="116" font-size="19">AIService</text><text x="326" y="145" font-size="15">本地演示 / HTTP 适配器</text>
+<text x="626" y="116" font-size="19">OpenAPI 3.1.1 + JSON Schema</text><text x="626" y="145" font-size="15">capabilities → create → get → cancel</text>
+<g stroke="#a9b4d0" stroke-width="2" marker-end="url(#arrow)"><path d="M256 126H301"/><path d="M556 126H601"/><path d="M431 170V219"/></g>
+<g fill="#253c39" stroke="#85bea8"><rect x="36" y="226" width="220" height="86" rx="10"/><rect x="306" y="226" width="250" height="86" rx="10"/><rect x="606" y="226" width="398" height="86" rx="10"/></g>
+<text x="56" y="260" font-size="19">PipelineState</text><text x="56" y="289" font-size="15">准备 → 分析 → 确认 → 组装</text>
+<text x="326" y="260" font-size="19">人工确认与编辑</text><text x="326" y="289" font-size="15">镜头标题 / 时长；确认前不入轨</text>
+<text x="626" y="260" font-size="19">TimelineModel + TimelinePlayer</text><text x="626" y="289" font-size="15">CPU 片段区间 / Qt 真实媒体解码</text>
+<g stroke="#a9b4d0" stroke-width="2" marker-end="url(#arrow)"><path d="M256 269H301"/><path d="M556 269H601"/><path d="M806 312V363"/><path d="M806 170V202H970V363"/></g>
+<rect x="36" y="370" width="520" height="126" rx="10" fill="#242d40" stroke="#7183ad"/>
+<text x="56" y="405" font-size="19">StudioDocument / .luma v2 扩展</text><text x="56" y="438" font-size="15">对话、方案、静帧、媒体路径、时间线；token 不入盘</text><text x="56" y="470" font-size="15" fill="#b3c1dd">自有 OpenGL 渲染器通过 captureScene 提供当前画面</text>
+<rect x="606" y="370" width="398" height="126" rx="10" fill="#292536" stroke="#b8a0dc" stroke-dasharray="7 5"/>
+<text x="626" y="405" font-size="19">后续 Go 服务（本轮只交约束）</text><text x="626" y="438" font-size="15">transport → application → provider</text><text x="626" y="470" font-size="15">供应商 LLM / VLM；取消、幂等与归属检查</text>
+</g></svg>

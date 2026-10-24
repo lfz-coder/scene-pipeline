@@ -1,0 +1,241 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "光场工坊编排接口",
+    "version": "1.0.0",
+    "description": "Qt 客户端与后续 Go 服务之间的业务契约。模型供应商适配由 Go 服务负责；本轮不提供 Go 实现。"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8787",
+      "description": "本地开发地址，可由客户端配置替换"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/capabilities": {
+      "get": {
+        "operationId": "getCapabilities",
+        "summary": "查询可用 LLM/VLM 模型与建议轮询间隔",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "schemas/ai.json#/$defs/Capabilities"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "请求、权限、资源或状态错误。错误包含 request_id。",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "schemas/common.json#/$defs/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/runs": {
+      "post": {
+        "operationId": "createRun",
+        "summary": "提交对话与可选图片分析任务",
+        "description": "Idempotency-Key 在同一账号下保存 24 小时；相同键和相同规范化请求返回同一 run，内容不同返回 409。请求体最多 6 MiB。",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "$ref": "schemas/common.json#/$defs/Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "schemas/ai.json#/$defs/RunRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "已接受，轮询 run 获取进展",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "schemas/ai.json#/$defs/Run"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "请求、权限、资源或状态错误。错误包含 request_id。",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "schemas/common.json#/$defs/Problem"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "请求、权限、资源或状态错误。错误包含 request_id。",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "schemas/common.json#/$defs/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/runs/{run_id}": {
+      "parameters": [
+        {
+          "name": "run_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "schemas/common.json#/$defs/Id"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getRun",
+        "summary": "取得完整运行快照",
+        "description": "revision 在快照内容变化时递增，相同 revision 必须代表相同快照，不得回退。message 为当前累计文本，客户端按快照替换，不重复追加。queued → running → succeeded/failed/cancelled，终态不可逆。响应体最多 1 MiB。",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "schemas/ai.json#/$defs/Run"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "请求、权限、资源或状态错误。错误包含 request_id。",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "schemas/common.json#/$defs/Problem"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "请求、权限、资源或状态错误。错误包含 request_id。",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "schemas/common.json#/$defs/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/runs/{run_id}/cancel": {
+      "parameters": [
+        {
+          "name": "run_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "schemas/common.json#/$defs/Id"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "cancelRun",
+        "summary": "取消排队或执行中的任务",
+        "description": "expected_revision 不符返回 409，客户端读取新快照后决定是否重试。已 cancelled 重复取消仍返回同一终态；succeeded/failed 返回 409。",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "schemas/common.json#/$defs/CancelRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "schemas/ai.json#/$defs/Run"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "请求、权限、资源或状态错误。错误包含 request_id。",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "schemas/common.json#/$defs/Problem"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "请求、权限、资源或状态错误。错误包含 request_id。",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "schemas/common.json#/$defs/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "RunRequest": {
+        "$ref": "schemas/ai.json#/$defs/RunRequest"
+      },
+      "Run": {
+        "$ref": "schemas/ai.json#/$defs/Run"
+      },
+      "Pipeline": {
+        "$ref": "schemas/pipeline.json#/$defs/Pipeline"
+      },
+      "Timeline": {
+        "$ref": "schemas/timeline.json#/$defs/Timeline"
+      },
+      "StudioDocument": {
+        "$ref": "schemas/studio.json#/$defs/Document"
+      }
+    }
+  }
+}

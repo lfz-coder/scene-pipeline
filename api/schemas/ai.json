@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "RunRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "project_id": {
+          "$ref": "common.json#/$defs/Id"
+        },
+        "conversation_id": {
+          "$ref": "common.json#/$defs/Id"
+        },
+        "model_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "capability": {
+          "type": "string",
+          "enum": [
+            "llm",
+            "vlm"
+          ]
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": [
+                  "user",
+                  "assistant"
+                ]
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              }
+            },
+            "required": [
+              "role",
+              "text"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 40
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "mime_type": {
+                "type": "string",
+                "enum": [
+                  "image/png",
+                  "image/jpeg"
+                ]
+              },
+              "data_base64": {
+                "type": "string",
+                "minLength": 4,
+                "maxLength": 2800000
+              }
+            },
+            "required": [
+              "mime_type",
+              "data_base64"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 2
+        }
+      },
+      "required": [
+        "project_id",
+        "conversation_id",
+        "model_id",
+        "capability",
+        "messages",
+        "images"
+      ],
+      "if": {
+        "properties": {
+          "capability": {
+            "const": "vlm"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "images": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    "Run": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "common.json#/$defs/Id"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "running",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 16000
+        },
+        "shots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "common.json#/$defs/Id"
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120
+              },
+              "duration_ms": {
+                "type": "integer",
+                "minimum": 100,
+                "maximum": 60000
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "duration_ms"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 12
+        },
+        "error": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "status",
+        "message",
+        "shots",
+        "error"
+      ]
+    },
+    "Capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "models": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120
+              },
+              "capability": {
+                "type": "string",
+                "enum": [
+                  "llm",
+                  "vlm"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "label",
+              "capability"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 100
+        },
+        "poll_interval_ms": {
+          "type": "integer",
+          "minimum": 200,
+          "maximum": 10000
+        }
+      },
+      "required": [
+        "models",
+        "poll_interval_ms"
+      ]
+    }
+  }
+}

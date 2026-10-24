@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="540" viewBox="0 0 1120 540">
+<rect width="1120" height="540" rx="20" fill="#11151e"/>
+<g font-family="system-ui,PingFang SC,sans-serif" fill="#e6eaf3">
+<text x="32" y="44" font-size="24" font-weight="600">项目会话常驻，内容视图切换</text>
+<text x="32" y="74" font-size="15" fill="#abb6cb">外层：首页 / 项目　　内层：只切右侧内容，助手与文档保持同一实例</text>
+<rect x="32" y="100" width="1056" height="354" rx="12" fill="#181e29" stroke="#46546c"/>
+<rect x="48" y="116" width="1024" height="44" rx="8" fill="#2a3343"/>
+<text x="66" y="144" font-size="16">光场工坊 / 工程名</text>
+<text x="422" y="144" font-size="16">方案　3D 场景　镜头　媒体　时间线</text>
+<text x="913" y="144" font-size="16">保存 / 模型服务</text>
+<rect x="48" y="176" width="292" height="260" rx="8" fill="#253044" stroke="#6e8cba"/>
+<text x="68" y="207" font-size="18" font-weight="600">常驻 ChatPanel</text>
+<text x="68" y="242" font-size="15">历史 / 当前任务 / 参考图</text>
+<text x="68" y="271" font-size="15">文本规划 / 画面分析</text>
+<rect x="64" y="336" width="260" height="80" rx="8" fill="#151b27" stroke="#5c6c86"/>
+<text x="82" y="365" font-size="15">底部输入与发送 / 取消</text>
+<text x="82" y="394" font-size="14" fill="#b5c0d6">隐藏后仍保留任务</text>
+<rect x="358" y="176" width="714" height="260" rx="8" fill="#1b292b" stroke="#629b91"/>
+<text x="380" y="207" font-size="18" font-weight="600">项目内容 QStackedWidget</text>
+<g fill="#293d3e" stroke="#4d7772">
+<rect x="380" y="232" width="206" height="70" rx="7"/>
+<rect x="602" y="232" width="206" height="70" rx="7"/>
+<rect x="824" y="232" width="226" height="70" rx="7"/>
+</g>
+<text x="398" y="261" font-size="16">方案审阅</text><text x="398" y="285" font-size="14">确认前不入轨</text>
+<text x="620" y="261" font-size="16">OpenGL 场景</text><text x="620" y="285" font-size="14">对象 / 属性 / 七步编辑</text>
+<text x="842" y="261" font-size="16">媒体 / 时间线</text><text x="842" y="285" font-size="14">共享资产 / 解码与剪辑</text>
+<rect x="380" y="326" width="670" height="88" rx="8" fill="#182122" stroke="#629b91"/>
+<text x="400" y="356" font-size="18">StudioDocument：项目唯一数据</text>
+<text x="400" y="388" font-size="15">对话 · PipelineState · assets · TimelineModel · 工程持久化</text>
+<text x="32" y="492" font-size="17">HomeComposer → 新建工程 → 同一个 ChatPanel → AIService → OpenAPI</text>
+<text x="32" y="520" font-size="14" fill="#abb6cb">服务设置独立于工程内容；CPU 模型不依赖 QWidget，网络层不持有 OpenGL 资源。</text>
+</g></svg>

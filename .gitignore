@@ -1,0 +1,27 @@
+# 本机与编辑器配置
+.DS_Store
+.idea/
+*.swp
+*~
+
+# 编译产物与缓存
+/native/build*/
+/build/
+/cmake-build-*/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.cache/
+.venv/
+venv/
+
+# 本机密钥与服务配置；示例配置可以提交
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+
+# 运行时配置
+imgui.ini
