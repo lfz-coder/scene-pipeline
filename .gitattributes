@@ -1,0 +1,10 @@
+# 离线 HTML 是由源码与文章生成的阅读/演示产物。
+/index.html linguist-generated=true
+/articles/index.html linguist-generated=true
+
+# 文档和第三方依赖保留在仓库，不计入业务源码语言统计。
+articles/** linguist-documentation=true
+docs/** linguist-documentation=true
+previews/** linguist-documentation=true
+native/third_party/** linguist-vendored=true
+articles/vendor/** linguist-vendored=true
